@@ -1,0 +1,17 @@
+{
+	"name": "azdfpayroll",
+	"properties": {
+		"globalParameters": {
+			"dataflow_param_fiscalyear": {
+				"type": "int",
+				"value": 2020
+			}
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "511fadff-b389-429a-b079-454207cf7cc9",
+		"tenantId": "7e68b26a-586d-48cf-855d-1cd7331b7706"
+	}
+}

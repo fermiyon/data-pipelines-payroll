@@ -1,0 +1,33 @@
+{
+	"name": "ds_sqldb_emp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqldb2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dir_ds_sqldb"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "EmployeeID",
+				"type": "varchar"
+			},
+			{
+				"name": "LastName",
+				"type": "varchar"
+			},
+			{
+				"name": "FirstName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "NYC_Payroll_EMP_MD"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
