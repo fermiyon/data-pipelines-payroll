@@ -28,7 +28,7 @@ Dynamic, automatable, and monitorable data pipelines to ensure efficient operati
 ### Step 1: Create resources
 
 #### 1.1 Azure Data Lake Gen2: Create a storage account and container. Ensure hierarchical namespace are enabled.
-#### 1.2 Azure Data Factory: Set up the Data Factory resource for data integration. Create the tables with the query editor.
+#### 1.2 Azure Data Factory: Set up the Data Factory resource for data integration. 
 #### 1.3 Azure SQL Database: Create a SQL Database named `db_nycpayroll` with basic service tier and networking configurations.
 
 In Networking tab, allow both of the below options:
@@ -36,7 +36,7 @@ In Networking tab, allow both of the below options:
 - Allow Azure services and resources to access this server
 - Add current client IP address
 
-#### 1.4 Azure Synapse Analytics: Create a workspace. Create database with serverless SQL pool for data processing. Create external table pointing to the dir_staging.
+#### 1.4 Azure Synapse Analytics: Create a workspace. 
 
 ![screenshot](screenshots/az-resource-group.png)
 
@@ -70,7 +70,15 @@ Create tables with the sql script. The script is in `scripts/az_sqldb_createtabl
 
 ![screenshot](screenshots/az-sqldb-create-tables.png)
 
-### Step 4: Azure Data Factory: Linked Services Creation
+### Step 4: Azure Synapse: Create Database and External Table
+
+1. Create database with serverless SQL pool for data processing. 
+2. Create external table pointing to the `dir_staging`. The script is in `scripts/az_synapsedb_createexternaltable.sql`
+
+![screenshot](screenshots/az-synapse-create-external-table.png)
+
+
+### Step 5: Azure Data Factory: Linked Services Creation
 Add linked services to Azure Data Factory.
 
 - Create a linked service to the data lake
@@ -78,7 +86,7 @@ Add linked services to Azure Data Factory.
 
 ![screenshot](screenshots/adf-linked-services.png)
 
-### Step 5: Azure Data Factory: Datasets Creation
+### Step 6: Azure Data Factory: Datasets Creation
 
 In Azure Data Factory: 
 - Create the datasets for the csv files in the Data Lake
@@ -88,14 +96,14 @@ In Azure Data Factory:
 ![screenshot](screenshots/adf-dataset.png)
 
 
-### Step 6: Azure Data Factory: Data Flows Creation
+### Step 7: Azure Data Factory: Data Flows Creation
 
 Create the dataflows that loads csv files to the sql database tables.
 
 ![screenshot](screenshots/adf-dataflow.png)
 
 
-### Step 7: Aggregate Data Flow
+### Step 8: Aggregate Data Flow
 
 In this step, the 2021 year data and historical data will be extracted, merged, aggregated and stored in DataLake staging area which will be used by Synapse Analytics external table. The aggregation will be on Agency Name, Fiscal Year and TotalPaid.
 
@@ -122,7 +130,7 @@ In this step, the 2021 year data and historical data will be extracted, merged, 
 
 ![screenshot](screenshots/adf-dataflow-summary.png)
 
-### Step 8: Create pipeline
+### Step 9: Create pipeline
 
 1. Create a new pipeline
 2. Include dataflows for Agency, Employee and Title to be parallel
@@ -133,7 +141,7 @@ Final pipeline looks like this:
 
 ![screenshot](screenshots/adf-pipeline.png)
 
-### Step 9: Create global parameter
+### Step 10: Create global parameter
 
 Create a new Global Parameter. This will be the Parameter at the global pipeline level that will be passed on to the data flow `dataflow_param_fiscalyear` parameter.
 
@@ -142,7 +150,7 @@ Create a new Global Parameter. This will be the Parameter at the global pipeline
 ![screenshot](screenshots/adf-global-parameter-pipeline.png)
 
 
-### Step 10: Trigger and Monitor pipeline
+### Step 11: Trigger and Monitor pipeline
 
 1. Select Add trigger option from pipeline view in the toolbar
 2. Choose trigger now to initiate pipeline run
@@ -152,7 +160,7 @@ Create a new Global Parameter. This will be the Parameter at the global pipeline
 
 ![screenshot](screenshots/adf-pipeline-succeeded.png)
 
-### Step 11: Verify Pipeline run artifacts
+### Step 12: Verify Pipeline run artifacts
 
 1. Query data in SQL DB summary table (destination table). This is one of the sinks defined in the pipeline.
 
@@ -166,7 +174,7 @@ Create a new Global Parameter. This will be the Parameter at the global pipeline
 
 ![screenshot](screenshots/az-synapse-db-external-summary.png)
 
-### Step 12: GitHub Integration
+### Step 13: GitHub Integration
 
 1. Login to your Github account and create a new Repo in Github
 2. Connect Azure Data Factory to Github
